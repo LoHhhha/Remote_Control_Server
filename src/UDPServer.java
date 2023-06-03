@@ -106,22 +106,25 @@ public class UDPServer {
                         robot.mousePress(InputEvent.BUTTON3_MASK);
                         robot.mouseRelease(InputEvent.BUTTON3_MASK);
                     }
-                    case "\\M_d"->{
-                        robot.mouseWheel(1);
-                    }
-                    case "\\M_u"->{
-                        robot.mouseWheel(-1);
-                    }
+                    case "\\M_d"-> robot.mouseWheel(1);
+                    case "\\M_u"-> robot.mouseWheel(-1);
                     case "\\M_ld" -> robot.mousePress(InputEvent.BUTTON1_MASK);
                     case "\\M_lu" -> robot.mouseRelease(InputEvent.BUTTON1_MASK);
                     case "\\M_rd" -> robot.mousePress(InputEvent.BUTTON3_MASK);
                     case "\\M_ru" -> robot.mouseRelease(InputEvent.BUTTON3_MASK);
                     default -> {
-                        data = data.substring(3);
-                        String[] nums = data.split(",");
-                        if (nums.length == 2) {
-                            int X = Integer.parseInt(nums[0]), Y = Integer.parseInt(nums[1]);
-                            robot.mouseMove(mx + X, my + Y);
+                        if(data.startsWith("\\MW_")){
+                            data = data.substring(4);
+                            int X = Integer.parseInt(data);
+                            robot.mouseWheel(X);
+                        }
+                        else {
+                            data = data.substring(3);
+                            String[] nums = data.split(",");
+                            if (nums.length == 2) {
+                                int X = Integer.parseInt(nums[0]), Y = Integer.parseInt(nums[1]);
+                                robot.mouseMove(mx + X, my + Y);
+                            }
                         }
                         return null;
                     }
